@@ -1,8 +1,9 @@
 #!/usr/bin/bash
-# declare STRING variable
-STRING="Hello World"
-# print STRING on screen
-echo $STRING
+# 
+# All work by Kianna Crow
+# cu-ecen-aeld/assignment-1-kino-kishar
+# finder.sh
+#
 
 # Arguments:
 # - path to directory "filesdir"
@@ -17,23 +18,43 @@ echo $STRING
 args=("$@") #create an array of the arguments
 
 # Catch for wrong number of arguments:
-echo Number of arguments passed: $#
+# echo Number of arguments passed: $#
 if [ $# -lt 2 ]; then
 
 	echo 'Incorrect number of arguments received.'
 	echo 'Expected: finder.sh [directory] [search string]'
 	exit 1
-fi
+fi # [ $# -lt 2 ]
 
 # Extract arguments:
 filesdir=${args[0]}
 unset args[0]
 searchstr=${args[*]}
-echo The files are $filesdir and the searchstr is $searchstr.
+# echo The files are $filesdir and the searchstr is $searchstr.
 
 # Match filesdir to directory:
 dirmatches="$(find "$filesdir" -type d)"
-echo $dirmatches  ################################################## Implement catches!
+echo 'dirmatches: ' $dirmatches  ################################################## Unfinished catches!
 
-# Match files in filesdir with searchstr:
+# For each directory matched and it's subdirectories
+for eachdir in $dirmatches; do
+
+	echo 'eachdir: ' $eachdir
+	filematches=$(find $eachdir -maxdepth 1 -type f) # Removed recursion.
+
+	for eachfile in $filematches; do
+		echo 'eachfile: ' $eachfile
+		echo 'grep count: ' $(grep $searchstr $eachfile -c)
+		
+	done # eachfile in $eachdir
+	
+done # eachdir in $dirmatches
+
+
+
+
+
+
+
+
 
