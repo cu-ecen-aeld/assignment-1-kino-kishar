@@ -36,21 +36,25 @@ searchstr=${args[*]}
 dirmatches="$(find "$filesdir" -type d)"
 echo 'dirmatches: ' $dirmatches  ################################################## Unfinished catches!
 
-# For each directory matched and it's subdirectories
+# For each directory matched and it's subdirectories:
+filescount=0
+linescount=0
 for eachdir in $dirmatches; do
-
+	
 	echo 'eachdir: ' $eachdir
 	filematches=$(find $eachdir -maxdepth 1 -type f) # Removed recursion.
-
+	let filescount+=${#filematches[@]}
+	echo 'number of files found: ' $filescount
 	for eachfile in $filematches; do
 		echo 'eachfile: ' $eachfile
-		echo 'grep count: ' $(grep $searchstr $eachfile -c)
 		
+		let linescount+=$(grep $searchstr $eachfile -c)
+		echo 'grep count: ' $linescount
 	done # eachfile in $eachdir
 	
 done # eachdir in $dirmatches
 
-
+echo "The number of files are" $filescount "and the number of matching lines are" $linescount
 
 
 
