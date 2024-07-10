@@ -10,6 +10,7 @@
 # Arguments:(1) directory (2) search string
 # - if incorrect parameters or non-directory -> return 1 and print statements
 # - echo "The number of files are X and the number of matching lines are Y"
+# - if the search string contains special chars, they must be escaped
 
 # Catch for wrong number of arguments:
 if [ $# -lt 2 ]; then
@@ -24,6 +25,7 @@ filesdir=$1 && shift
 searchstr=$@
 #echo '1 filesdir: ' $filesdir
 #echo '2 searchstr: ' $searchstr
+
 
 # Catch for non-directory in argument one:
 if ! [ -d $filesdir ]; then
@@ -49,7 +51,7 @@ for eachdir in $dirmatches; do
 	for eachfile in $filematches; do
 		#echo '4 searchstr: ' $searchstr 
 		#echo '5 eachfile: ' $eachfile
-		let linescount+=$(grep "${searchstr}" $eachfile -c) # For each file, search for the string.
+		let linescount+=$(grep -F "${searchstr}" $eachfile -c) # For each file, search for the string.
 	done # eachfile in $eachdir
 	
 done # eachdir in $dirmatches
