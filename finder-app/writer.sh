@@ -11,6 +11,15 @@
 # - if incorrect parameters -> return 1 and print statements
 # - creates/overwrites a file with the write string
 
+# Trap for error:
+
+doerror(){
+	echo 'Error creating/writing file.'
+	echo 'Expected: writer.sh [file path] [write string]'
+	exit 1
+}
+trap 'doerror' ERR
+
 # Catch for wrong number of arguments:
 if [ $# -lt 2 ]; then
 	echo 'Incorrect number of arguments received.'
@@ -31,7 +40,7 @@ echo $thefile
 
 # Make a directory if it doesn't already exist.
 if ! [ -d $thedir ]; then
-	mkdir -p $thedir										# Trap for fails
+	mkdir -p $thedir || doerror					# Trap for fails
 	echo Made a directory.
 else
 	echo "Didn't make a directory."
