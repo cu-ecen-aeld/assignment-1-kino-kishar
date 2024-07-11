@@ -20,6 +20,22 @@ fi # [ $# -lt 2 ]
 
 # Steal the first argument (which file):
 filepath=$1 && shift
+thedir="$(dirname "${filepath}")"
+thefile="$(basename "${filepath}")"
+
 # The rest of the args are the write string:
 writestr=$@
+
+echo $thedir
+echo $thefile
+
+# Make a directory if it doesn't already exist.
+if ! [ -d $thedir ]; then
+	mkdir -p $thedir										# Trap for fails
+	echo Made a directory.
+else
+	echo "Didn't make a directory."
+fi 
+
+echo $writestr > $filepath
 
